@@ -5,106 +5,135 @@ TebLocalPlannerROS:
  # Trajectory
   
  teb_autosize: True
- dt_ref: 0.3
- dt_hysteresis: 0.1
+ dt_ref: 0.4
+ dt_hysteresis: 0.05
  max_samples: 500
- global_plan_overwrite_orientation: True
- allow_init_with_backwards_motion: False
- max_global_plan_lookahead_dist: 3.0
- global_plan_viapoint_sep: -1
+ global_plan_overwrite_orientation: False
+ allow_init_with_backwards_motion: True
+ max_global_plan_lookahead_dist: 7.0
+ global_plan_viapoint_sep: 0.6
  global_plan_prune_distance: 1
  exact_arc_length: False
- feasibility_check_no_poses: 5
+ use_proportional_saturation: True
+ feasibility_check_no_poses: 6
  publish_feedback: False
     
  # Robot
-         
- max_vel_x: 0.4
- max_vel_x_backwards: 0.2
+ max_vel_x: 0.6
+ max_vel_x_backwards: 0.6
  max_vel_y: 0.0
- max_vel_theta: 0.3
- acc_lim_x: 0.5
- acc_lim_theta: 0.5
- min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
+ max_vel_theta: 0.5
+ acc_lim_x: 0.6
+ acc_lim_theta: 0.3
 
- footprint_model:
-   type: "point"
+ # ********************** Carlike robot parameters ********************
+ min_turning_radius: 0.0 # set to zero for a diff-drive robot.
+ cmd_angle_instead_rotvel: False
+ # ********************************************************************
 
- # GoalTolerance
-    
- xy_goal_tolerance: 0.2
- yaw_goal_tolerance: 0.1
- free_goal_vel: False
- complete_global_plan: True
+
+ footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+   #  type: "line" 
+   #  line_start: 0.83
+   #  line_end: -0.83
+   #  type: "polygon" 
+   #  vertices: [[ 0.83,  0.36], [-0.83,  0.36], [-0.83, -0.36], [ 0.83, -0.36]]
+    type: "two_circles"
+   #  front_offset: 0.4125 # for type "two_circles"
+   #  front_radius: 0.5475 # for type "two_circles"
+   #  rear_offset: 0.4125 # for type "two_circles"
+   #  rear_radius: 0.5475 # for type "two_circles"
+    front_offset: 0.50 # for type "two_circles"
+    front_radius: 0.34 # for type "two_circles"
+    rear_offset: 0.50 # for type "two_circles"
+    rear_radius: 0.34 # for type "two_circles"
+
+
+# GoalTolerance
+ yaw_goal_tolerance: 6.28
+ xy_goal_tolerance: 0.4
+ free_goal_vel: False  # Allows robot to arrive at goal at non-zero velocity
     
  # Obstacles
-    
- min_obstacle_dist: 0.25 # This value must also include our robot radius, since footprint_model is set to "point".
- inflation_dist: 0.6
- include_costmap_obstacles: True
- costmap_obstacles_behind_robot_dist: 1.5
- obstacle_poses_affected: 15
+ #min_obstacle_dist: 0.56 # This value must also include our robot's expansion if footprint_model is set to "line".
+ min_obstacle_dist: 0.36 # This value must also include our robot's expansion if footprint_model is set to "line".
+ legacy_obstacle_association: False # Legacy obstacle assosiation plans against each obstacle and a teb pose. Setting true causes worse obstacle avoidance
+ inflation_dist: 1 # Psuedo inflation distance, teb attempts to stick to this during optimisation.
+ include_costmap_obstacles: False # Only set to false if we are using a costmap converter plugin
+ costmap_obstacles_behind_robot_dist: 2.0 # Distance behind the robot teb attempts to keep clear from obstalces. For some reason when it's behind you have to infalte the dsitance to get it to actually come into affect. 
+ obstacle_poses_affected: 40 # Number of obstacle positions taken into consideration while teb tries to plan away from the "relevant" ones. Higher the value the less likely teb is to plan into an obstacle.
 
- dynamic_obstacle_inflation_dist: 0.6
- include_dynamic_obstacles: True
+ dynamic_obstacle_inflation_dist: 1.5
+ include_dynamic_obstacles: False # Teb attaches a velocity to dynamic obstacles to attempt to track the position of them.
 
- costmap_converter_plugin: ""
+## Costmap converter plugin   
+
+#  costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSMCCH"
+#  costmap_converter_plugin: "costmap_converter::CostmapToLinesDBSRANSAC"
+#  costmap_converter_plugin: "costmap_converter::CostmapToLinesDBSMCCH"
+ costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSConcaveHull"
+#  costmap_converter_plugin: "" # deactivate plugin
+#  costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSMCCH"
+
  costmap_converter_spin_thread: True
  costmap_converter_rate: 5
 
  # Optimization
-    
- no_inner_iterations: 5
- no_outer_iterations: 4
+ no_inner_iterations: 14 #10
+ no_outer_iterations: 10 #8
  optimization_activate: True
  optimization_verbose: False
- penalty_epsilon: 0.1
- obstacle_cost_exponent: 4
- weight_max_vel_x: 2
- weight_max_vel_theta: 1
+ # penalty_epsilon: 0.2 #0.15 Adds a small safety margin to penalty function: Increasing it helps keep the plan away from obstacles. 
+ penalty_epsilon: 0.10 #Adds a small safety margin to penalty function: Increasing it helps keep the plan away from obstacles.
+ obstacle_cost_exponent: 10.0 #  Exponent for non-linear obstacle cost. Increasing stops teb plans exploding out of control when theres a few obstacles near each other. 
+ weight_max_vel_x: 1
+ weight_max_vel_theta: 4
  weight_acc_lim_x: 1
  weight_acc_lim_theta: 1
- weight_kinematics_nh: 1000
- weight_kinematics_forward_drive: 1
- weight_kinematics_turning_radius: 1
- weight_optimaltime: 1 # must be > 0
- weight_shortest_path: 0
- weight_obstacle: 100
- weight_inflation: 0.2
- weight_dynamic_obstacle: 10
+ weight_kinematics_nh: 1000 # Weight for satsfying non-holonomic kinematics: Not seen any major difference from tuning this. 
+ weight_kinematics_forward_drive: 1 # Must be 1 or Teb will try and resist driving backwards in any shape or form. 
+ weight_kinematics_turning_radius: 1 # Weight for satisfying non-holonomic turning. Not seen too much effect tuning this.
+ weight_optimaltime: 1 # must be > 0: Setting this higher causes teb to ignore obstacles in order to keep the plan faster.
+ weight_shortest_path: 5 # 0.6 # Weight for satisfying the shortest path. THis causes teb to ignore reversing and obstacles in order to keep the path shorter.
+ weight_obstacle: 1 # Weight for satysifying obstale distances we set earlier. 
+ weight_inflation: 1 # Weight for saisfying the obstalce inflations we set earlier. 
+ weight_dynamic_obstacle: 10 # not in use yet
  weight_dynamic_obstacle_inflation: 0.2
- weight_viapoint: 1
- weight_adapt_factor: 2
+ weight_viapoint: 10 # Increases teb's attempt to stick close to the points being sset on the global plan poses. 
+ weight_adapt_factor: 30 # Weight obstacle is scaled by this during each outer iteration. 
+ obstacle_cost_exponent: 10
 
  # Homotopy Class Planner
-
+ 
  enable_homotopy_class_planning: True
  enable_multithreading: True
- max_number_classes: 4
- selection_cost_hysteresis: 1.0
- selection_prefer_initial_plan: 0.9
- selection_obst_cost_scale: 100.0
- selection_alternative_time_cost: False
- 
+ max_number_classes: 6
+ #  max_number_plans_in_current_class: 2
+ selection_cost_hysteresis: 1.0 # Specify how much trajectory cost must a new canditate have in order to be selected over current trajectory
+ selection_prefer_initial_plan: 0.7
+ # selection_obst_cost_scale: 25 # Extra scaling for obstacle cost in terms of selecting a best candidate
+ selection_obst_cost_scale: 200 # Extra scaling for obstacle cost in terms of selecting a best candidate
+
+ selection_alternative_time_cost: False # Replaces time cost with transition time: Setting true creates very weird plans
  roadmap_graph_no_samples: 15
- roadmap_graph_area_width: 5
- roadmap_graph_area_length_scale: 1.0
- h_signature_prescaler: 0.5
+ roadmap_graph_area_width: 4
+ # roadmap_graph_area_length_scale: 1.0
+ h_signature_prescaler: 1.0 # Reduce only if having problems with too many obstacles in costmap 
  h_signature_threshold: 0.1
- obstacle_heading_threshold: 0.45
- switching_blocking_period: 0.0
+ obstacle_heading_threshold: 1
+ switching_blocking_period: 1.5 # Time restriction on switching to a parallel plan if one has just been switched to.
  viapoints_all_candidates: True
- delete_detours_backwards: True
- max_ratio_detours_duration_best_duration: 3.0
+ delete_detours_backwards: False
  visualize_hc_graph: False
  visualize_with_time_as_z_axis_scale: False
 
 # Recovery
- 
- shrink_horizon_backup: True
- shrink_horizon_min_duration: 10
- oscillation_recovery: True
- oscillation_v_eps: 0.1
- oscillation_omega_eps: 0.1
- oscillation_recovery_min_duration: 10
- oscillation_filter_duration: 10
+
+shrink_horizon_backup: False
+# shrink_horizon_min_duration: 10
+oscillation_recovery: True 
+# oscillation_v_eps: 0.1
+# oscillation_omega_eps: 0.1
+# oscillation_recovery_min_duration: 10
+# oscillation_filter_duration: 10
+

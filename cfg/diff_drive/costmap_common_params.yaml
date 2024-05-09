@@ -1,19 +1,15 @@
-
-#---standard pioneer footprint---
-#---(in meters)---
-robot_radius: 0.17
-footprint_padding: 0.00
-
+footprint: [[ 0.83,  0.34], [-0.83,  0.34], [-0.83, -0.34], [ 0.83, -0.34]]
+ 
 transform_tolerance: 0.2
 map_type: costmap
-
-always_send_full_costmap: true
+unknown_cost_value: 255
+lethal_cost_threshold: 253
 
 obstacle_layer:
  enabled: true
  obstacle_range: 3.0
  raytrace_range: 4.0
- inflation_radius: 0.2
+ inflation_radius: 1
  track_unknown_space: true
  combination_method: 1
 
@@ -23,9 +19,13 @@ obstacle_layer:
 
 inflation_layer:
   enabled:              true
-  cost_scaling_factor:  10.0  # exponential rate at which the obstacle cost drops off (default: 10)
-  inflation_radius:     0.5  # max. distance from an obstacle at which costs are incurred for planning paths.
+  cost_scaling_factor:  1.5  # 8 exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius:     1  # max. distance from an obstacle at which costs are incurred for planning paths.
 
 static_layer:
   enabled:              true
   map_topic:            "/map"
+  unknown_cost_value:   255
+  track_unknown_space:  true
+  trinary_costmap:      true # If true, translates all map message values to NO_INFORMATION/FREE_SPACE/LETHAL_OBSTACLE (three values). If false, a full spectrum of intermediate values is possible.
+

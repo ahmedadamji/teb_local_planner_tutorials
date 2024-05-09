@@ -1,0 +1,51 @@
+include "robots/diff_drive_robot.inc"
+
+define floorplan model
+(
+  # Color set to gray30 for visibility
+  color "gray30"
+
+  # Enabling boundary collision detection
+  boundary 1
+
+  # GUI options disabled for a cleaner visualization
+  gui_nose 0
+  gui_grid 0
+  gui_outline 0
+  gripper_return 0
+  fiducial_return 0
+  laser_return 1  # Only the laser returns reflections
+)
+
+# Set simulation resolution and time step
+resolution 0.02
+interval_sim 100  # simulation timestep in milliseconds
+
+# Window configuration for visualization
+window
+(
+  size [ 700.0 700.0 ]
+  center [ -0.1329603642225266 -2.341889381408691 ]
+  rotate [ 0.0 0.0 ]
+  scale 60
+)
+
+# Defining the floorplan using the provided map image
+floorplan
+(
+  name "maze"
+  bitmap "../maps/farnham_outside.png"  # Ensure this path correctly points to your map file
+  size [ 35.1 29.9 2.0 ]        # Updated size based on the image dimensions and resolution (The Last Parameter Is The Height)
+  # pose [ (17.55 - 0.1329603642225266/2)  (14.95 - 2.341889381408691/2)  0.0 0.0 ] # Center of the map adjusted for the origin offset
+  # pose [ 17.484 13.779 0.0 0.0 ] # Center of the map adjusted for the origin offset
+  pose [ 17.55 14.95 0.0 0.0 ] # Center of the map adjusted for the origin offset
+
+)
+
+# Robot configuration remains the same
+diff_drive_robot
+(
+  pose [ 7.1329603642225266 14.341889381408691 0.0 0.0 ]  # Initial pose of the robot, adjust as needed for your start position
+  name "robot"
+)
+

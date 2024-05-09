@@ -1,0 +1,38 @@
+base_global_planner: "global_planner/GlobalPlanner" #"navfn/NavfnROS"
+GlobalPlanner:
+  default_tolerance: 0.4
+  allow_unknown: false
+  visualize_potential: false
+  publish_potential: false
+  use_dijkstra: true # If true, use dijkstra's algorithm. Otherwise, A*
+  orientation_mode: 2
+  orientation_window_size: 50
+  neutral_cost: 66 #150
+  cost_factor: 0.55
+  lethal_cost: 253
+  unknown_cost_value: 255
+  outline_map: true # Outlines the global costmap with lethal obstacles.
+  
+base_local_planner: "teb_local_planner/TebLocalPlannerROS"
+controller_frequency: 7.0
+controller_patience: 9.0
+oscillation_timeout: 5.0
+planner_frequency: 5.0
+planner_patience: 1.0 
+max_planning_retries: -1 #-1 for infinite
+# conservative_reset_dist: 1000 # The distance away from the robot in meters beyond which obstacles will be cleared from the costmap when attempting to clear space in the map.
+
+
+recovery_behavior_enabled: true
+clearing_rotation_allowed: true
+costmap_clear_close/reset_distance: 3.0
+costmap_clear_all/reset_distance: 3.0
+costmap_clear_all/invert_area_to_clear: false
+costmap_clear_close/invert_area_to_clear: false
+costmap_clear_all/layer_names: ["image_seg_obstacle_layer"]
+costmap_clear_close/layer_names: ["image_seg_obstacle_layer"]
+
+# costmap_clear_far/reset_distance: 3.5
+#recovery_behaviors: [{"name": "conservative_reset", "type": "ClearCostmapRecovery"}, {"name": "rotate_recovery", "type": "RotateRecovery"}, {"name": "aggressive_reset", "type": "ClearCostmapRecovery"}])
+recovery_behaviors: [{"name": "costmap_clear_close", "type": "clear_costmap_recovery/ClearCostmapRecovery"}, {"name": "costmap_clear_all", "type": "clear_costmap_recovery/ClearCostmapRecovery"}]
+# recovery_behaviors: [{"name": "costmap_clear_close", "type": "clear_costmap_recovery/ClearCostmapRecovery"}, {"name": "super_costmap_clear", "type": "fox_rt_navigation/SuperClearCostmapRecovery"}]

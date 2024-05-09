@@ -1,0 +1,27 @@
+!!python/object/new:dynamic_reconfigure.encoding.Config
+dictitems:
+  cost_factor: 0.55
+  groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+    dictitems:
+      cost_factor: 0.55
+      groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      id: 0
+      lethal_cost: 253
+      name: Default
+      neutral_cost: 66
+      orientation_mode: 2
+      orientation_window_size: 255
+      parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      parent: 0
+      publish_potential: false
+      state: true
+      type: ''
+    state: []
+  lethal_cost: 253
+  neutral_cost: 66
+  orientation_mode: 2
+  orientation_window_size: 255
+  publish_potential: false
+state: []

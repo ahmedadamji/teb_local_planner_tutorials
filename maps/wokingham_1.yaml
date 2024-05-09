@@ -1,0 +1,11 @@
+image: wokingham_1.png
+resolution: 0.1
+origin:
+  - -0.1329603642225266
+  - -2.341889381408691
+  - 0
+negate: 0
+free_thresh: 0.196
+occupied_thresh: 0.3
+latitude: 51.20486159999999
+longitude: -0.770031799999999

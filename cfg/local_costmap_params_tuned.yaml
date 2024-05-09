@@ -1,0 +1,37 @@
+!!python/object/new:dynamic_reconfigure.encoding.Config
+dictitems:
+  footprint: '[]'
+  footprint_padding: 0.0
+  groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+    dictitems:
+      footprint: '[]'
+      footprint_padding: 0.0
+      groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      height: 6
+      id: 0
+      name: Default
+      origin_x: 0.0
+      origin_y: 0.0
+      parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      parent: 0
+      publish_frequency: 2.0
+      resolution: 0.1
+      robot_radius: 0.17
+      state: true
+      transform_tolerance: 0.5
+      type: ''
+      update_frequency: 5.0
+      width: 6
+    state: []
+  height: 6
+  origin_x: 0.0
+  origin_y: 0.0
+  publish_frequency: 2.0
+  resolution: 0.1
+  robot_radius: 0.17
+  transform_tolerance: 0.5
+  update_frequency: 5.0
+  width: 6
+state: []
