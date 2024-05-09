@@ -10,8 +10,8 @@ TebLocalPlannerROS:
  max_samples: 500
  global_plan_overwrite_orientation: False
  allow_init_with_backwards_motion: True
- max_global_plan_lookahead_dist: 7.0
- global_plan_viapoint_sep: 0.6
+ max_global_plan_lookahead_dist: 0.5 # 7.0
+ global_plan_viapoint_sep: 0.05 # 0.6
  global_plan_prune_distance: 1
  exact_arc_length: False
  use_proportional_saturation: True
@@ -44,21 +44,21 @@ TebLocalPlannerROS:
    #  rear_offset: 0.4125 # for type "two_circles"
    #  rear_radius: 0.5475 # for type "two_circles"
     front_offset: 0.50 # for type "two_circles"
-    front_radius: 0.34 # for type "two_circles"
+    front_radius: 0.34 # for type "two_circles" # 0.38
     rear_offset: 0.50 # for type "two_circles"
-    rear_radius: 0.34 # for type "two_circles"
+    rear_radius: 0.34 # for type "two_circles" # 0.38
 
 
 # GoalTolerance
- yaw_goal_tolerance: 6.28
- xy_goal_tolerance: 0.4
+ yaw_goal_tolerance: 6.28 # 6.2
+ xy_goal_tolerance: 0.02 # 2.0
  free_goal_vel: False  # Allows robot to arrive at goal at non-zero velocity
     
  # Obstacles
  #min_obstacle_dist: 0.56 # This value must also include our robot's expansion if footprint_model is set to "line".
- min_obstacle_dist: 0.36 # This value must also include our robot's expansion if footprint_model is set to "line".
+ min_obstacle_dist: 0.1 # This value must also include our robot's expansion if footprint_model is set to "line".
  legacy_obstacle_association: False # Legacy obstacle assosiation plans against each obstacle and a teb pose. Setting true causes worse obstacle avoidance
- inflation_dist: 1 # Psuedo inflation distance, teb attempts to stick to this during optimisation.
+ inflation_dist: 0.7 # Psuedo inflation distance, teb attempts to stick to this during optimisation.
  include_costmap_obstacles: False # Only set to false if we are using a costmap converter plugin
  costmap_obstacles_behind_robot_dist: 2.0 # Distance behind the robot teb attempts to keep clear from obstalces. For some reason when it's behind you have to infalte the dsitance to get it to actually come into affect. 
  obstacle_poses_affected: 40 # Number of obstacle positions taken into consideration while teb tries to plan away from the "relevant" ones. Higher the value the less likely teb is to plan into an obstacle.
