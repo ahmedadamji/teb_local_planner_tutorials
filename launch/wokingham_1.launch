@@ -36,6 +36,9 @@
 		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
 		<param name="controller_frequency" value="5.0" />
 		<param name="controller_patience" value="15.0" />
+
+		<remap from="base_scan" to="scan"/>
+
 	</node>
 
 

@@ -1,5 +1,11 @@
 include "robots/diff_drive_robot.inc"
 
+define block model
+(
+  size [ 0.25 0.25 0.40 ]
+  color "blue"
+)
+
 define floorplan model
 (
   # Color set to gray30 for visibility
@@ -40,10 +46,18 @@ floorplan
 
 )
 
+# Using custom obstacle
+block
+(
+  pose [ 7.2 76 0.000 72.439 ]  # Specify the position and orientation of the obstacle
+  # size [0.1 0.1 0.1]    # Specify the size of the obstacle
+  color "blue"             # Specify the color of the obstacle
+  name "obstacle"
+)
+
 # Robot configuration remains the same
 diff_drive_robot
 (
   pose [ 3.179 96.010 0.000 72.439 ]  # Initial pose of the robot, adjust as needed for your start position
   name "robot"
 )
-
