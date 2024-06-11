@@ -49,8 +49,8 @@ floorplan
 # Using custom obstacle
 block
 (
-  pose [ 7.2 76 0.000 72.439 ]  # Specify the position and orientation of the obstacle
-  # size [0.1 0.1 0.1]    # Specify the size of the obstacle
+  pose [ 7.4 75.8 0.000 72.439 ]  # Specify the position and orientation of the obstacle
+  size [0.2 0.2 0.4]    # Specify the size of the obstacle
   color "blue"             # Specify the color of the obstacle
   name "obstacle"
 )
