@@ -1,0 +1,11 @@
+image: farnham_polytunnel.png
+resolution: 0.1
+origin:
+  - -89.594482421875
+  - -142.3785400390625
+  - 0
+negate: 0
+free_thresh: 0.196
+occupied_thresh: 0.3
+latitude: 51.20473878500001
+longitude: -0.7700940883329941
