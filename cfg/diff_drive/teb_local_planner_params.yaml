@@ -56,11 +56,11 @@ TebLocalPlannerROS:
     
  # Obstacles
  #min_obstacle_dist: 0.56 # This value must also include our robot's expansion if footprint_model is set to "line".
- min_obstacle_dist: 0.05 # This value must also include our robot's expansion if footprint_model is set to "line".
+ min_obstacle_dist: 0.1 # This value must also include our robot's expansion if footprint_model is set to "line".
  legacy_obstacle_association: False # Legacy obstacle assosiation plans against each obstacle and a teb pose. Setting true causes worse obstacle avoidance
- inflation_dist: 0.2 # Psuedo inflation distance, teb attempts to stick to this during optimisation.
+ inflation_dist: 1 # Psuedo inflation distance, teb attempts to stick to this during optimisation.
  include_costmap_obstacles: False # Only set to false if we are using a costmap converter plugin
- costmap_obstacles_behind_robot_dist: 0.2 # Distance behind the robot teb attempts to keep clear from obstalces. For some reason when it's behind you have to infalte the dsitance to get it to actually come into affect. 
+ costmap_obstacles_behind_robot_dist: 2 # Distance behind the robot teb attempts to keep clear from obstalces. For some reason when it's behind you have to infalte the dsitance to get it to actually come into affect. 
  obstacle_poses_affected: 40 # Number of obstacle positions taken into consideration while teb tries to plan away from the "relevant" ones. Higher the value the less likely teb is to plan into an obstacle.
 
  dynamic_obstacle_inflation_dist: 0.02
