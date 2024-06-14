@@ -51,10 +51,31 @@ floorplan
 # Using custom obstacle
 block
 (
-  pose [ 13.52 13.49 0.000 72.439 ]  # Specify the position and orientation of the obstacle
+  pose [ 13.0 13.9 0.000 72.439 ]  # Specify the position and orientation of the obstacle
   size [0.200 0.200 0.400]    # Specify the size of the obstacle
   color "blue"             # Specify the color of the obstacle
-  name "obstacle"
+  name "obstacle1"
+)
+block
+(
+  pose [ 15.0 13.9 0.000 72.439 ]  # Specify the position and orientation of the obstacle
+  size [0.200 0.200 0.400]    # Specify the size of the obstacle
+  color "blue"             # Specify the color of the obstacle
+  name "obstacle2"
+)
+block
+(
+  pose [ 16.0 13.9 0.000 72.439 ]  # Specify the position and orientation of the obstacle
+  size [0.200 0.200 0.400]    # Specify the size of the obstacle
+  color "blue"             # Specify the color of the obstacle
+  name "obstacle3"
+)
+block
+(
+  pose [ 17.0 13.9 0.000 72.439 ]  # Specify the position and orientation of the obstacle
+  size [0.200 0.200 0.400]    # Specify the size of the obstacle
+  color "blue"             # Specify the color of the obstacle
+  name "obstacle4"
 )
 
 # Robot configuration remains the same
